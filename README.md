@@ -93,7 +93,7 @@ The fact that "<em>S</em>C" has priority before "C<em>H</em>" is explained in th
 in the table above. This rule was not explicitly part of the official publication, but
 can be deduced implicitly from the published examples. 
 
-The transliterations happens in 3 steps:
+The transliteration happens in 3 steps:
 
 1. Transliteration of characters from left to right like described in the table above.
 2. Removing all duplicate codes.
