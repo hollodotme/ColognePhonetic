@@ -74,7 +74,7 @@ B| | 1
 P | not before H | 1
 D, T | not before C, S, Z | 2
 F, V, W | | 3
-P | vor H | 3
+P | before H | 3
 G, K, Q | | 4
 C | initial sound before A, H, K, L, O, Q, R, U, X | 4
 C | before A, H, K, O, Q, U, X but not after S, Z | 4

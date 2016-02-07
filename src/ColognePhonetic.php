@@ -35,7 +35,9 @@ final class ColognePhonetic
 
 		$this->guardOnlyOneWord( $words );
 
-		$wordIndex = $this->getIndex( $words[0] );
+		$inputWord = isset($words[0]) ? $words[0] : '';
+
+		$wordIndex = $this->getIndex( $inputWord );
 
 		return $wordIndex;
 	}
@@ -47,7 +49,7 @@ final class ColognePhonetic
 	 */
 	private function guardOnlyOneWord( array $words )
 	{
-		if ( count( $words ) != 1 )
+		if ( count( $words ) > 1 )
 		{
 			throw new ColognePhoneticException(
 				'More than one word given. Use ColognePhonetic::getPhraseIndex to get index of multiple words.',
@@ -105,185 +107,122 @@ final class ColognePhonetic
 	 */
 	private function getIndex( $inputWord )
 	{
-		$code    = '';
-		$word    = strtolower( $inputWord );
-		$word    = preg_replace( '#[^a-z]#i', '', $word );
-		$wordlen = strlen( $word );
-		$chars   = str_split( $word );
+		$i    = 0;
+		$code = '';
+		$word = strtolower( $inputWord );
+		$word = preg_replace( '#[^a-z]#i', '', $word );
 
-		if ( empty($chars) )
+		if ( empty($word) )
 		{
 			return '';
 		}
 
+		$chars     = str_split( $word );
+		$simpleMap = [
+			# A, E, I, J, O, U, Y = '0'
+			'a' => '0', 'e' => '0', 'i' => '0', 'j' => '0', 'o' => '0', 'u' => '0', 'y' => '0',
+			# F, V, W = '3'
+			'f' => '3', 'v' => '3', 'w' => '3',
+			# G, K, Q = '4'
+			'g' => '4', 'k' => '4', 'q' => '4',
+			# L = '5'
+			'l' => '5',
+			# M, N = '6',
+			'm' => '6', 'n' => '6',
+			# R = '7'
+			'r' => '7',
+			# S, Z = '8'
+			's' => '8', 'z' => '8',
+		];
+
 		if ( $chars[0] == 'c' )
 		{
-			if ( isset($chars[1]) )
+			if ( isset($chars[1]) && !in_array( $chars[1], [ 'a', 'h', 'k', 'l', 'o', 'q', 'r', 'u', 'x' ] ) )
 			{
-				switch ( $chars[1] )
-				{
-					case 'a':
-					case 'h':
-					case 'k':
-					case 'l':
-					case 'o':
-					case 'q':
-					case 'r':
-					case 'u':
-					case 'x':
-						$code = '4';
-						break;
-					default:
-						$code = '8';
-						break;
-				}
+				$code = '8';
 			}
 			else
 			{
 				$code = '4';
 			}
 
-			$x = 1;
-		}
-		else
-		{
-			$x = 0;
+			$i = 1;
 		}
 
-		for ( ; $x < $wordlen; $x++ )
+		for ( ; $i < strlen( $word ); $i++ )
 		{
-			switch ( $chars[ $x ] )
+			$char = $chars[ $i ];
+			$prev = isset($chars[ $i - 1 ]) ? $chars[ $i - 1 ] : null;
+			$next = isset($chars[ $i + 1 ]) ? $chars[ $i + 1 ] : null;
+
+			if ( isset($simpleMap[ $char ]) )
 			{
-				case 'a':
-				case 'e':
-				case 'i':
-				case 'j':
-				case 'o':
-				case 'u':
-				case 'y':
-					$code .= '0';
-					break;
-				case 'b':
-				case 'p':
-					$code .= '1';
-					break;
-				case 'd':
-				case 't':
+				if ( $simpleMap[ $char ] != '0' || $i == 0 )
 				{
-					if ( $x + 1 < $wordlen )
-					{
-						switch ( $chars[ $x + 1 ] )
-						{
-							case 'c':
-							case 's':
-							case 'z':
-								$code .= '8';
-								break;
-							default:
-								$code .= '2';
-								break;
-						}
-					}
-					else
-					{
-						$code .= '2';
-					}
-					break;
+					$code .= $simpleMap[ $char ];
 				}
-				case 'f':
-				case 'v':
-				case 'w':
-					$code .= '3';
-					break;
-				case 'g':
-				case 'k':
-				case 'q':
-					$code .= '4';
-					break;
-				case 'c':
+			}
+
+			# B, P = '1'
+			if ( in_array( $char, [ 'b', 'p' ] ) )
+			{
+				# P before H = '3'
+				if ( $char == 'p' && $next == 'h' )
 				{
-					if ( $x + 1 < $wordlen )
-					{
-						switch ( $chars[ $x + 1 ] )
-						{
-							case 'a':
-							case 'h':
-							case 'k':
-							case 'o':
-							case 'q':
-							case 'u':
-							case 'x':
-								switch ( $chars[ $x - 1 ] )
-								{
-									case 's':
-									case 'z':
-										$code .= '8';
-										break;
-									default:
-										$code .= '4';
-								}
-								break;
-							default:
-								$code .= '8';
-								break;
-						}
-					}
-					else
+					$code .= '3';
+				}
+				else
+				{
+					$code .= '1';
+				}
+			}
+
+			# D, T = '2'
+			if ( in_array( $char, [ 'd', 't' ] ) )
+			{
+				# D, T before C, S, Z = '8'
+				if ( in_array( $next, [ 'c', 's', 'z' ] ) )
+				{
+					$code .= '8';
+				}
+				else
+				{
+					$code .= '2';
+				}
+			}
+
+			if ( $char == 'c' )
+			{
+				if ( in_array( $next, [ 'a', 'h', 'k', 'o', 'q', 'u', 'x' ] ) )
+				{
+					if ( in_array( $prev, [ 's', 'z' ] ) )
 					{
 						$code .= '8';
 					}
-					break;
-				}
-				case 'x':
-				{
-					if ( $x > 0 )
-					{
-						switch ( $chars[ $x - 1 ] )
-						{
-							case 'c':
-							case 'k':
-							case 'q':
-								$code .= '8';
-								break;
-							default:
-								$code .= '48';
-						}
-					}
 					else
 					{
-						$code .= '48';
+						$code .= '4';
 					}
-					break;
 				}
-				case 'l':
-					$code .= '5';
-					break;
-				case 'm':
-				case 'n':
-					$code .= '6';
-					break;
-				case 'r':
-					$code .= '7';
-					break;
-				case 's':
-				case 'z':
+				else
+				{
 					$code .= '8';
-					break;
+				}
 			}
-		}
 
-		$codelen      = strlen( $code );
-		$codeChars    = str_split( $code );
-		$phoneticcode = $codeChars[0];
-
-		for ( $x = 1; $x < $codelen; $x++ )
-		{
-			if ( $codeChars[ $x ] != '0' )
+			if ( $char == 'x' )
 			{
-				$phoneticcode .= $codeChars[ $x ];
+				if ( in_array( $prev, [ 'c', 'k', 'q' ] ) )
+				{
+					$code .= '8';
+				}
+				else
+				{
+					$code .= '48';
+				}
 			}
 		}
 
-		return strval( preg_replace( '#(.)\\1+#', '\\1', $phoneticcode ) );
+		return strval( preg_replace( '#(.)\\1+#', '\\1', $code ) );
 	}
 }

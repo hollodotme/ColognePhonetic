@@ -69,6 +69,9 @@ class ColognePhoneticTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( $expectedCode, $index );
 	}
 
+	/**
+	 * @return array
+	 */
 	public function singleCharacterProvider()
 	{
 		return [
@@ -119,7 +122,7 @@ class ColognePhoneticTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider cRuleProvider
 	 */
-	public function testCheckSpecialRulesForC( $word, $expectedCode )
+	public function testSpecialRulesForC( $word, $expectedCode )
 	{
 		$colognePhonetic = new ColognePhonetic();
 
@@ -128,6 +131,9 @@ class ColognePhoneticTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( $expectedCode, $index );
 	}
 
+	/**
+	 * @return array
+	 */
 	public function cRuleProvider()
 	{
 		return [
@@ -164,6 +170,8 @@ class ColognePhoneticTest extends \PHPUnit_Framework_TestCase
 			# C after S, Z = '8'
 			[ 'SC', '8' ],
 			[ 'ZC', '8' ],
+			[ 'SCX', '8' ],
+			[ 'ZCX', '8' ],
 
 			# C before A, H, K, O, Q, U, X but NOT after S, Z = '4'
 			[ 'BCA', '14' ],
@@ -173,6 +181,299 @@ class ColognePhoneticTest extends \PHPUnit_Framework_TestCase
 			[ 'BCQ', '14' ],
 			[ 'BCU', '14' ],
 			[ 'BCX', '148' ],
+
+			# C not before A, H, K, O, Q, U, X = '8'
+			[ 'BCB', '181' ],
+			[ 'BCC', '18' ],
+			[ 'BCD', '182' ],
+			[ 'BCE', '18' ],
+			[ 'BCF', '183' ],
+			[ 'BCG', '184' ],
+			[ 'BCI', '18' ],
+			[ 'BCJ', '18' ],
+			[ 'BCL', '185' ],
+			[ 'BCM', '186' ],
+			[ 'BCN', '186' ],
+			[ 'BCP', '181' ],
+			[ 'BCR', '187' ],
+			[ 'BCS', '18' ],
+			[ 'BCT', '182' ],
+			[ 'BCV', '183' ],
+			[ 'BCW', '183' ],
+			[ 'BCY', '18' ],
+			[ 'BCZ', '18' ],
+
+		];
+	}
+
+	/**
+	 * @param string $word
+	 * @param string $expectedCode
+	 *
+	 * @dataProvider dtRuleProvider
+	 */
+	public function testSpecialRulesForDT( $word, $expectedCode )
+	{
+		$colognePhonetic = new ColognePhonetic();
+
+		$index = $colognePhonetic->getWordIndex( $word );
+
+		$this->assertEquals( $expectedCode, $index );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function dtRuleProvider()
+	{
+		return [
+			# D not before C, S, Z = '2'
+			[ 'DA', '2' ],
+			[ 'DB', '21' ],
+			[ 'DD', '2' ],
+			[ 'DE', '2' ],
+			[ 'DF', '23' ],
+			[ 'DF', '23' ],
+			[ 'DG', '24' ],
+			[ 'DH', '2' ],
+			[ 'DI', '2' ],
+			[ 'DJ', '2' ],
+			[ 'DK', '24' ],
+			[ 'DL', '25' ],
+			[ 'DM', '26' ],
+			[ 'DN', '26' ],
+			[ 'DO', '2' ],
+			[ 'DP', '21' ],
+			[ 'DQ', '24' ],
+			[ 'DR', '27' ],
+			[ 'DT', '2' ],
+			[ 'DU', '2' ],
+			[ 'DV', '23' ],
+			[ 'DW', '23' ],
+			[ 'DX', '248' ],
+			[ 'DY', '2' ],
+
+			# T not before C, S, Z = '2'
+			[ 'TA', '2' ],
+			[ 'TB', '21' ],
+			[ 'TD', '2' ],
+			[ 'TE', '2' ],
+			[ 'TF', '23' ],
+			[ 'TF', '23' ],
+			[ 'TG', '24' ],
+			[ 'TH', '2' ],
+			[ 'TI', '2' ],
+			[ 'TJ', '2' ],
+			[ 'TK', '24' ],
+			[ 'TL', '25' ],
+			[ 'TM', '26' ],
+			[ 'TN', '26' ],
+			[ 'TO', '2' ],
+			[ 'TP', '21' ],
+			[ 'TQ', '24' ],
+			[ 'TR', '27' ],
+			[ 'TT', '2' ],
+			[ 'TU', '2' ],
+			[ 'TV', '23' ],
+			[ 'TW', '23' ],
+			[ 'TX', '248' ],
+			[ 'TY', '2' ],
+
+			# D before C, S, Z = '8'
+			[ 'DC', '8' ],
+			[ 'DS', '8' ],
+			[ 'DZ', '8' ],
+
+			# T before C, S, Z = '8'
+			[ 'TC', '8' ],
+			[ 'TS', '8' ],
+			[ 'TZ', '8' ],
+		];
+	}
+
+	/**
+	 * @param string $word
+	 * @param string $expectedCode
+	 *
+	 * @dataProvider pRuleProvider
+	 */
+	public function testSpecialRulesForP( $word, $expectedCode )
+	{
+		$colognePhonetic = new ColognePhonetic();
+
+		$index = $colognePhonetic->getWordIndex( $word );
+
+		$this->assertEquals( $expectedCode, $index );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function pRuleProvider()
+	{
+		return [
+			# P not before H = '1'
+			[ 'PA', '1' ],
+			[ 'PB', '1' ],
+			[ 'PC', '18' ],
+			[ 'PD', '12' ],
+			[ 'PE', '1' ],
+			[ 'PF', '13' ],
+			[ 'PG', '14' ],
+			[ 'PG', '14' ],
+			[ 'PI', '1' ],
+			[ 'PJ', '1' ],
+			[ 'PK', '14' ],
+			[ 'PL', '15' ],
+			[ 'PM', '16' ],
+			[ 'PN', '16' ],
+			[ 'PO', '1' ],
+			[ 'PP', '1' ],
+			[ 'PQ', '14' ],
+			[ 'PR', '17' ],
+			[ 'PS', '18' ],
+			[ 'PT', '12' ],
+			[ 'PU', '1' ],
+			[ 'PV', '13' ],
+			[ 'PW', '13' ],
+			[ 'PX', '148' ],
+			[ 'PY', '1' ],
+			[ 'PZ', '18' ],
+
+			# P before H = '3'
+			[ 'PH', '3' ],
+		];
+	}
+
+	/**
+	 * @param string $word
+	 * @param string $expectedCode
+	 *
+	 * @dataProvider xRuleProvider
+	 */
+	public function testSpecialRulesForX( $word, $expectedCode )
+	{
+		$colognePhonetic = new ColognePhonetic();
+
+		$index = $colognePhonetic->getWordIndex( $word );
+
+		$this->assertEquals( $expectedCode, $index );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function xRuleProvider()
+	{
+		return [
+			# X not after C, K, Q = '48'
+			[ 'AX', '48' ],
+			[ 'BX', '148' ],
+			[ 'DX', '248' ],
+			[ 'EX', '48' ],
+			[ 'FX', '348' ],
+			[ 'GX', '48' ],
+			[ 'HX', '48' ],
+			[ 'IX', '048' ],
+			[ 'JX', '048' ],
+			[ 'LX', '548' ],
+			[ 'MX', '648' ],
+			[ 'NX', '648' ],
+			[ 'OX', '048' ],
+			[ 'PX', '148' ],
+			[ 'RX', '748' ],
+			[ 'SX', '848' ],
+			[ 'TX', '248' ],
+			[ 'UX', '048' ],
+			[ 'VX', '348' ],
+			[ 'WX', '348' ],
+			[ 'XX', '4848' ],
+			[ 'YX', '048' ],
+			[ 'ZX', '848' ],
+
+			# X after C, K, Q = '8'
+			[ 'CX', '48' ],
+			[ 'KX', '48' ],
+			[ 'QX', '48' ],
+		];
+	}
+
+	public function testEmptyWordReturnsEmptyIndex()
+	{
+		$colognePhonetic = new ColognePhonetic();
+
+		$index = $colognePhonetic->getWordIndex( '' );
+
+		$this->assertEquals( '', $index );
+	}
+
+	public function testEmptyPhraseReturnsEmptyArray()
+	{
+		$colognePhonetic = new ColognePhonetic();
+
+		$index = $colognePhonetic->getPhraseIndex( '' );
+
+		$this->assertEquals( [ ], $index );
+	}
+
+	/**
+	 * @param string $word
+	 * @param string $expectedCode
+	 *
+	 * @dataProvider wordsProvider
+	 */
+	public function testSomeWords( $word, $expectedCode )
+	{
+		$colognePhonetic = new ColognePhonetic();
+
+		$index = $colognePhonetic->getWordIndex( $word );
+
+		$this->assertEquals( $expectedCode, $index );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function wordsProvider()
+	{
+		return [
+			[ 'Wikipedia', '3412' ],
+			[ 'Holger', '547' ],
+			[ 'Woltersdorf', '35278273' ],
+		];
+	}
+
+	/**
+	 * @param string $phrase
+	 * @param array  $expectedArray
+	 *
+	 * @dataProvider phrasesProvider
+	 */
+	public function testSomePhrases( $phrase, $expectedArray )
+	{
+		$colognePhonetic = new ColognePhonetic();
+
+		$index = $colognePhonetic->getPhraseIndex( $phrase );
+
+		$this->assertEquals( $expectedArray, $index );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function phrasesProvider()
+	{
+		return [
+			[
+				'Ein Satz mit vielen Wörtern',
+				[
+					'Ein'     => '06',
+					'Satz'    => '8',
+					'mit'     => '62',
+					'vielen'  => '356',
+					'Wortern' => '37276',
+				],
+			],
 		];
 	}
 }
