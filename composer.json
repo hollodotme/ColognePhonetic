@@ -1,0 +1,31 @@
+{
+	"name": "hollodotme/cologne-phonetic",
+	"description": "cologne-phonetic",
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Holger Woltersdorf",
+			"email": "hw@hollo.me"
+		}
+	],
+	"support": {
+		"email": "hw@hollo.me",
+		"source": "https://github.com/hollodotme/cologne-phonetic"
+	},
+	"require": {
+		"php": ">=5.5",
+		"ext-iconv": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"hollodotme\\ColognePhonetic\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"hollodotme\\ColognePhonetic\\Tests\\Unit\\": "tests/Unit/"
+		}
+	}
+}
