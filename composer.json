@@ -18,6 +18,9 @@
 		"php": ">=5.5",
 		"ext-iconv": "*"
 	},
+	"require-dev": {
+		"satooshi/php-coveralls": "dev-master"
+	},
 	"autoload": {
 		"psr-4": {
 			"hollodotme\\ColognePhonetic\\": "src/"

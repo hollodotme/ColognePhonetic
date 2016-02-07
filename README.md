@@ -1,8 +1,15 @@
+[![Build Status](https://travis-ci.org/hollodotme/ColognePhonetic.svg?branch=master)](https://travis-ci.org/hollodotme/ColognePhonetic)
+[![Coverage Status](https://coveralls.io/repos/hollodotme/ColognePhonetic/badge.svg?branch=master&service=github)](https://coveralls.io/github/hollodotme/ColognePhonetic?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/hollodotme/cologne-phonetic/v/stable)](https://packagist.org/packages/hollodotme/cologne-phonetic) 
+[![Total Downloads](https://poser.pugx.org/hollodotme/cologne-phonetic/downloads)](https://packagist.org/packages/hollodotme/cologne-phonetic) 
+[![Latest Unstable Version](https://poser.pugx.org/hollodotme/cologne-phonetic/v/unstable)](https://packagist.org/packages/hollodotme/cologne-phonetic) 
+[![License](https://poser.pugx.org/hollodotme/cologne-phonetic/license)](https://packagist.org/packages/hollodotme/cologne-phonetic)
+
 # ColognePhonetic
 
 A PHP OOP implementation of the "Kölner Phonetik Index".
 
-This is an adaption of [Andy Theiler](https://github.com/deezaster)'s precedural implementation. 
+This is an adaption of [Andy Theiler](https://github.com/deezaster)'s precedural implementation with some fixes and unit tests. 
 
 ## Requirements
 
