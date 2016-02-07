@@ -1,6 +1,6 @@
 {
 	"name": "hollodotme/cologne-phonetic",
-	"description": "cologne-phonetic",
+	"description": "PHP OOP Implementation of the 'Kölner Phonetic Index' - a soundex like algorithm for german language",
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"license": "MIT",
